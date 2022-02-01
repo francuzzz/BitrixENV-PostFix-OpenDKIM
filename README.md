@@ -30,4 +30,7 @@ After the propogation of DNS records, letters from your server will be signed wi
 
 dig txt yn._domainkey.yourbestdomain.com.
 
+
+#### Check score:
+
 For example: https://www.mail-tester.com/
