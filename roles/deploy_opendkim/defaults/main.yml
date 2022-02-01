@@ -1,0 +1,5 @@
+---
+postfix_dir: /etc/postfix
+domain: test.onelab.kz
+short_domain: tob
+dns_folder: /home/user/ansible/dns
