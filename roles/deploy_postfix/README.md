@@ -1,38 +1,40 @@
-Role Name
+
+deploy_postfix
 =========
 
-A brief description of the role goes here.
+Install and configure a mailing system Postfix
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Installed and running server with BitrixENV
 
 Role Variables
 --------------
+```
+# === Credentials for certificate === #
+domain: yourbestdomain.com
+passphrase: # Set if you want passphrase
+country_name: RU 
+state_or_province: RU
+locality_name: Moscow
+email_address: admin@yourbestdomain.com
+organization_name: Test Company LLC
+# === Private Key  === #
+key_size: 2048
+key_type: RSA # Others include DSA, ECC, Ed25519, Ed448, X25519, X448
+```
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```
+- name: Install & Config Opendkim
+  hosts: bitrix
+  become: yes
 
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+  roles:
+    - deploy_postfix.yml
+```
