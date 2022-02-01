@@ -11,6 +11,9 @@ Installed and running server with BitrixENV
 
 Role Variables
 --------------
+
+Edit /roles/deploy_postfix/vars/main.yml
+
 ```
 # === Credentials for certificate === #
 domain: yourbestdomain.com
