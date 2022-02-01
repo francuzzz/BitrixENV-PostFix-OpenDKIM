@@ -1,3 +1,5 @@
+![BitrixENV logo](https://79410.selcdn.ru/data.mcart.ru/main/51a/51a9bd78e6e4b1c90c80896353172120/sh.png)
+
 # BitrixENV-PostFix-OpenDKIM
 Ansible role for Deploy Postfix OpenDKIM in BitrixENV
 
