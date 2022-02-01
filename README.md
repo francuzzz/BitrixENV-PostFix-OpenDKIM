@@ -7,7 +7,7 @@ Ansible role for Deploy Postfix OpenDKIM in BitrixENV
 
 1. Add the ROLES folder to your Ansible folder.
 2. Change the variables in the roles/{{rolename}}/defaults/main.yml
-3. Launch playbook-postfx_opendkim.yml
+3. Launch it: ansible-playbook playbook-postfx_opendkim.yml
 4. Add DNS records in domain management.
 
 # DNS Records
