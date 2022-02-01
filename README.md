@@ -26,4 +26,8 @@ _dmarc.yourbestdomain.com.    IN TXT "v=DMARC1; p=quarantine; pct=5;"
 
 After the propogation of DNS records, letters from your server will be signed with a certificate, and all kinds of checks of mail services will also pass.
 
+#### For Linux users:
+
+dig txt yn._domainkey.yourbestdomain.com.
+
 For example: https://www.mail-tester.com/
