@@ -1,0 +1,69 @@
+---
+- name: Install a list of packages
+  yum:
+    name: postfix
+    state: latest
+
+- name: Make directory for Certs
+  file:
+    owner: root
+    group: root
+    path: "{{ certs_dir }}"
+    mode: 0755
+    state: directory
+
+- name: Generate an OpenSSL private key
+  openssl_privatekey:
+    path: "{{ certs_dir }}/{{ domain }}_privkey.pem"
+    size: "{{ key_size }}"
+    type: "{{ key_type }}"
+    backup: yes
+
+- name: Generate an OpenSSL Certificate Signing Request with Subject information
+  openssl_csr:
+    path: "{{ certs_dir }}/{{ domain }}.csr"
+    privatekey_path: "{{ certs_dir }}/{{ domain }}_privkey.pem"
+    country_name: "{{ country_name }}"
+    state_or_province_name:  "{{ state_or_province }}"
+    locality_name: "{{ locality_name }}"
+    organization_name: "{{ organization_name }}"
+    email_address: "{{ email_address }}"
+    common_name: "{{ domain }}"
+
+
+- name: Generate a Self Signed OpenSSL certificate
+  openssl_certificate:
+    path: "{{ certs_dir }}/{{ domain }}_cert.pem"
+    privatekey_path: "{{ certs_dir }}/{{ domain }}_privkey.pem"
+    csr_path: "{{ certs_dir }}/{{ domain }}.csr"
+    provider: selfsigned
+
+- name: Generate Postfix Main.cf
+  template:
+    src: main.j2
+    dest: "{{ postfix_dir }}/main.cf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Generate Master.cf
+  template:
+    src: master.j2
+    dest: "{{ postfix_dir }}/master.cf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Generate Msmtprc
+  template:
+    src: msmtprc.j2
+    dest: "{{ bitrix_dir }}/.msmtprc"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Start & enable service PostFix
+  service:
+    name: postfix
+    state: started
+    enabled: yes

@@ -1,0 +1,7 @@
+- name: Install & Config Opendkim
+  hosts: bitrix
+  become: yes
+
+  roles:
+    - deploy_postfix
+    - deploy_opendkim

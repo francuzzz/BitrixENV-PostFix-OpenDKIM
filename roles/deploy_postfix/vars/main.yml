@@ -1,0 +1,12 @@
+---
+# === CRT === #
+domain: test.onelab.kz
+passphrase: # Set if you want passphrase
+country_name: KZ
+state_or_province: VKO
+locality_name: Oskemen
+email_address: admin@test.onelab.kz
+organization_name: Test Onelab LLC
+# === Private Key === #
+key_size: 2048
+key_type: RSA # Others include DSA, ECC, Ed25519, Ed448, X25519, X448

@@ -1,0 +1,84 @@
+---
+- name: Install a list of packages
+  yum:
+    name: opendkim
+    state: latest
+
+- name: Make directory for Certs
+  file:
+    owner: opendkim
+    path: "{{ postfix_dir }}/dkim"
+    mode: 0755
+    state: directory
+
+- block: # === Block for Config Opendkim
+
+    - name: Generate Key for DKIM
+      command: opendkim-genkey -D {{ postfix_dir }}/dkim -d no-reply@{{ domain }} -s {{ short_domain }}
+      args:
+        creates: "{{ postfix_dir }}/dkim/{{ short_domain }}.private"
+
+    - name: Generate Opendkim Config
+      template:
+        src: opendkim.j2
+        dest: /etc/opendkim.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Generate Keytable
+      template:
+        src: keytable.j2
+        dest: "{{ postfix_dir }}/dkim/KeyTable"
+        owner: opendkim
+        group: opendkim
+        mode: 0644
+        
+
+    - name: Generate SigningTable
+      template:
+        src: signingtable.j2
+        dest: "{{ postfix_dir }}/dkim/SigningTable"
+        owner: opendkim
+        group: opendkim
+        mode: 0644
+
+    - name: Change Key ownership and permissions
+      file:
+        path: "{{ postfix_dir }}/dkim/{{ short_domain }}.private"
+        owner: opendkim
+        group: opendkim
+        mode: '0600'
+
+    - name: Generate New Postfix Main.cf
+      template:
+        src: main.j2
+        dest: "{{ postfix_dir }}/main.cf"
+        owner: root
+        group: root
+        mode: 0644
+
+
+
+- name: Start & enable service Opendkim
+  service:
+    name: opendkim
+    state: started
+    enabled: yes
+
+  notify:
+   - Restart Postfix
+   - Restart Opendkim
+
+- name: Display dkim id .txt for DNS
+  command: cat {{ postfix_dir }}/dkim/{{ short_domain }}.txt
+  register: command_output
+
+- name: Print DNS
+  debug:
+    msg: "{{command_output.stdout}}"
+
+- name: Copy DNS to master
+  fetch:
+    src: "{{ postfix_dir }}/dkim/{{ short_domain }}.txt"
+    dest: "{{dns_folder}}"
