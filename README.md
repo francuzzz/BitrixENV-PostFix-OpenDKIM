@@ -10,13 +10,13 @@ Ansible role for Deploy Postfix OpenDKIM in BitrixENV
 
 # DNS Records
 
-# SPF
+### SPF
 mail2.yourbestdomain.com. IN TXT "v=spf1 +a +mx +ip4:{{Your mail server IP adress}} ~all"								 
 										 
-# DKIM
+### DKIM
 yn._domainkey.yourbestdomain.com. IN TXT v=DKIM1; g=*; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/c8fae+aGslyE2ewDBcy6sXf4yHTCaK6Sx+t9CSUiXF2jNL1SzE1pU14yte9Pa1V5bsXEqLNkdFJyr6QClHC8gQvQwHY4AyBjEj2JWAlHLZ0S1KFWZeuauBYGtGc/2G9MJWti3KsxiESeCvZp3DGYDPVdGeNVOmws/mmsuy3DjwIDAQAB\
 
-# DMARC
+### DMARC
 _dmarc.yourbestdomain.com.    IN TXT "v=DMARC1; p=quarantine; pct=5;"
 
 
