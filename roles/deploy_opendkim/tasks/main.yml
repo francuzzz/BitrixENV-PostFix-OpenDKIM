@@ -4,14 +4,16 @@
     name: opendkim
     state: latest
 
-- name: Make directory for Certs
+- name: Make directory for Certificates
   file:
     owner: opendkim
     path: "{{ postfix_dir }}/dkim"
     mode: 0755
     state: directory
 
-- block: # === Block for Config Opendkim
+# === Block for Config Opendkim ====
+
+- block: 
 
     - name: Generate Key for DKIM
       command: opendkim-genkey -D {{ postfix_dir }}/dkim -d no-reply@{{ domain }} -s {{ short_domain }}
@@ -74,11 +76,11 @@
   command: cat {{ postfix_dir }}/dkim/{{ short_domain }}.txt
   register: command_output
 
-- name: Print DNS
+- name: Print DNS record
   debug:
     msg: "{{command_output.stdout}}"
 
-- name: Copy DNS to master
+- name: Copy DNS to folder on master PC
   fetch:
     src: "{{ postfix_dir }}/dkim/{{ short_domain }}.txt"
     dest: "{{dns_folder}}"
