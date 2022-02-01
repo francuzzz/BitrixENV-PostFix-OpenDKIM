@@ -1,38 +1,33 @@
-Role Name
+
+deploy_opendkim
 =========
 
-A brief description of the role goes here.
+Deploy Domain Keys Identified Mail on Bitrix ENV server 
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Installed and configured Postfix
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+postfix_dir: /etc/postfix 
+domain: yourbestdomain.com
+short_domain: yn  # first and last letter of the domain name. For example: YourbestdomaiN
+dns_folder: /home/user/ansible/dns
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- name: Install & Config Opendkim
+  hosts: bitrix
+  become: yes
 
-License
--------
+  roles:
+    - deploy_opendkim.yml
 
-BSD
 
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
